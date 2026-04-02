@@ -1,38 +1,12 @@
-# 03 — Scheduled (Cron) Workflow
-# Runs on a schedule using cron syntax. Great for nightly builds, data fetches, or stale issue cleanup.
-
 name: 03 - Scheduled Cron
 
 on:
   schedule:
-    - cron: '0 8 * * 1-5'  # weekdays at 08:00 UTC
-  workflow_dispatch:        # also allow manual trigger for testing
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch:
 
 jobs:
-  nightly-check:
+  health-check:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run health check
-        run: |
-          echo "Running scheduled health check..."
-          echo "Date: $(date -u)"
-          echo "Checking if main branch builds cleanly..."
-
-      - name: Simulate a report
-        run: |
-          echo "Repository: ${{ github.repository }}"  > report.txt
-          echo "Run date:   $(date -u)"               >> report.txt
-          echo "Triggered:  ${{ github.event_name }}"  >> report.txt
-          echo "Status:     HEALTHY"                   >> report.txt
-          cat report.txt
-
-      - name: Upload report
-        uses: actions/upload-artifact@v4
-        with:
-          name: health-report-${{ github.run_number }}
-          path: report.txt
-          retention-days: 30
+      - run: echo "Health check at $(date -u) — all good."

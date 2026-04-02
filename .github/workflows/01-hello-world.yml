@@ -1,24 +1,17 @@
-# 01 — Hello World
-# The simplest possible workflow. Runs on every push and prints a greeting.
-
 name: 01 - Hello World
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # allows manual trigger from the Actions tab
+  workflow_dispatch:
 
 jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello
-        run: echo "Hello, GitHub Actions!"
-
-      - name: Print event info
-        run: |
-          echo "Event:      ${{ github.event_name }}"
-          echo "Branch:     ${{ github.ref }}"
-          echo "Actor:      ${{ github.actor }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "SHA:        ${{ github.sha }}"
+      - run: echo "Hello, GitHub Actions!"
+      - run: |
+          echo "Event:  ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Actor:  ${{ github.actor }}"
+          echo "SHA:    ${{ github.sha }}"

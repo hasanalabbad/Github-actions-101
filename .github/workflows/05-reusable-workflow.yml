@@ -1,53 +1,14 @@
-# 05 — Reusable Workflow
-# Define a workflow that OTHER workflows can call, avoiding duplication.
-# This file is the reusable (callee) workflow.
-
 name: 05 - Reusable Build
 
 on:
-  workflow_call:       # makes this workflow callable by others
+  workflow_call:
     inputs:
-      environment:
-        description: 'Target deployment environment'
-        required: true
+      message:
         type: string
-        default: 'staging'
-      node-version:
-        description: 'Node.js version to use'
-        required: false
-        type: string
-        default: '20'
-    secrets:
-      deploy-token:
-        description: 'Token used for deployment'
-        required: false
-    outputs:
-      build-sha:
-        description: 'The SHA of the build'
-        value: ${{ jobs.build.outputs.sha }}
+        default: 'Hello from reusable workflow'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      sha: ${{ steps.info.outputs.sha }}
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-
-      - name: Build
-        run: |
-          echo "Building for environment: ${{ inputs.environment }}"
-          echo "Node version: ${{ inputs.node-version }}"
-          npm ci --prefix src || true
-          npm run build --prefix src || echo "No build script"
-
-      - name: Capture build info
-        id: info
-        run: echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+      - run: echo "${{ inputs.message }}"

@@ -1,45 +1,15 @@
-# 04 — Matrix Strategy
-# Test your code across multiple operating systems and language versions in parallel.
-
 name: 04 - Matrix Strategy
 
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false   # don't cancel other jobs if one fails
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: ['18', '20', '22']
-        exclude:
-          - os: macos-latest
-            node-version: '18'
-
+        os: [ubuntu-latest, macos-latest]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: src/package-lock.json
-
-      - name: Print environment
-        run: |
-          echo "OS:   ${{ matrix.os }}"
-          echo "Node: ${{ matrix.node-version }}"
-          node --version
-          npm --version
-
-      - name: Install and test
-        run: |
-          npm ci --prefix src || true
-          npm test --prefix src || echo "No tests configured"
+      - run: echo "Running on ${{ matrix.os }}"

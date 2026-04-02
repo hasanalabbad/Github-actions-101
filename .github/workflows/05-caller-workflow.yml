@@ -1,36 +1,10 @@
-# 05b — Caller Workflow
-# Demonstrates how to CALL the reusable workflow defined in 05-reusable-workflow.yml.
-
-name: 05b - Call Reusable Build
+name: 05b - Call Reusable
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target environment'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
 
 jobs:
   call-build:
     uses: ./.github/workflows/05-reusable-workflow.yml
     with:
-      environment: ${{ inputs.environment || 'staging' }}
-      node-version: '20'
-    secrets:
-      deploy-token: ${{ secrets.DEPLOY_TOKEN }}
-
-  post-build:
-    needs: call-build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print build result
-        run: |
-          echo "Build completed!"
-          echo "Build SHA: ${{ needs.call-build.outputs.build-sha }}"
+      message: 'Triggered from caller workflow'
