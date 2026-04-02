@@ -6,13 +6,15 @@ function greet(name) {
   return `Hello, ${name}! Welcome to GitHub Actions 101.`;
 }
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain" });
-  res.end(greet("World"));
-});
+if (require.main === module) {
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end(greet("World"));
+  });
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = { greet };
