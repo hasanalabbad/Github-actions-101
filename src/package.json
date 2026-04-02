@@ -1,0 +1,11 @@
+{
+  "name": "github-actions-101",
+  "version": "1.0.0",
+  "description": "Sample app for GitHub Actions 101",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "lint": "echo 'Linting passed (no linter configured).'"
+  }
+}
